@@ -456,7 +456,10 @@ class AthenaPandasResultSet(AthenaResultSet):
                                  converters=self.converters,
                                  parse_dates=self.parse_dates,
                                  infer_datetime_format=True,
-                                 skip_blank_lines=False)
+                                 skip_blank_lines=False,
+                                 keep_default_na=False,
+                                 na_values=[''],
+                                 quoting=1)
                 df = self._trunc_date(df)
             else:  # Allow empty response
                 df = pd.DataFrame()
