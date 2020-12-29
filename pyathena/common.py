@@ -188,12 +188,12 @@ class BaseCursor(with_metaclass(ABCMeta, object)):
         return query_id
 
     def _execute(self, operation, parameters=None, work_group=None, s3_staging_dir=None,
-                 cache_size=0):
+                 cache_size=0, concurrent_cache=True):
         query = self._formatter.format(operation, parameters)
         _logger.debug(query)
 
         request = self._build_start_query_execution_request(query, work_group, s3_staging_dir)
-        query_id = self._find_previous_query_id(query, work_group, cache_size)
+        query_id = self._find_previous_query_id(query, work_group, cache_size, concurrent_cache)
         if query_id is None:
             try:
                 query_id = retry_api_call(self._connection.client.start_query_execution,
